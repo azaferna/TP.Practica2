@@ -1,7 +1,9 @@
 package tp.pr1.logic;
 
+import tp.pr1.logic.celula.CelulaSimple;
+
 public class Superficie {
-	private Celula[][] superficie;
+	private CelulaSimple[][] superficie;
 	private int filas;
 	private int columnas;
 	
@@ -15,7 +17,7 @@ public class Superficie {
 		this.filas = filas;
 		this.columnas = columnas;
 		
-		this.superficie = new Celula[this.filas][this.columnas];
+		this.superficie = new CelulaSimple[this.filas][this.columnas];
 		this.todasANull();
 	}		
 	
@@ -66,13 +68,13 @@ public class Superficie {
 	 * @param casilla
 	 * @return celulaCreada;
 	 */
-	public boolean crearCelula(Casilla casilla)
+	public boolean crearCelulaSimple(Casilla casilla)
 	{
 		boolean ok = false;
 		
 		if(this.dentroDeSuperficie(casilla) && !this.casillaLlena(casilla))
 		{
-			this.superficie[casilla.getFila()][casilla.getColumna()] = new Celula();
+			this.superficie[casilla.getFila()][casilla.getColumna()] = new CelulaSimple();
 			ok = true;
 		}
 	

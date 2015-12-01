@@ -21,10 +21,13 @@ public class Casilla {
 		return this.columna;
 	}
 	
+	
 	//Devuelve un string que pinta la posicion de la casilla
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("( " + this.fila + "," + this.columna + " )");
 		return builder.toString();
 	}
+
+	
 }

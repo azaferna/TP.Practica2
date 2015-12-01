@@ -2,6 +2,9 @@ package tp.pr1.logic;
 
 public class Mundo {
 	private Superficie superficie;
+	private boolean simulacionTerminada;
+	
+
 	public static final int INICELLS = 9; // Número inicial de células en la superficie
 	public static final int INIFIL = 3;//Numero inicial de filas
 	public static final int INICOL = 4;// Número inicial de columnas
@@ -12,8 +15,16 @@ public class Mundo {
 	{
 		this.superficie = new Superficie(INIFIL, INICOL);
 		this.llenarNCelulasAleatorias();
+		this.simulacionTerminada = true;
 	}
-
+	
+	public boolean isSimulacionTerminada() {
+		return simulacionTerminada;
+	}
+	
+	public void setSimulacionTerminada(boolean simulacionTerminada) {
+		this.simulacionTerminada = simulacionTerminada;
+	}
 	
 	//Da un paso en el mundo
 	public String evoluciona(){

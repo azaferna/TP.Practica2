@@ -1,6 +1,9 @@
-package tp.pr1.logic;
+package tp.pr1.logic.celula;
 
-public class Celula {
+import tp.pr1.logic.Casilla;
+import tp.pr1.logic.Superficie;
+
+public class CelulaSimple extends Celula {
 	private int pasosReproduccion; //Pasos que faltan para que una celula se reproduzca.
 	private int pasosSinMover;//Pasos que falta para que una celula muera.
 	public static final int MAX_PASOS_SIN_MOVER = 2;//Constante de inicio pasosSinMover.
@@ -10,7 +13,7 @@ public class Celula {
 	/**
 	 * Constructor de la clase celula.
 	 */
-	public Celula()
+	public CelulaSimple()
 	{
 		this.pasosReproduccion = PASOS_REPRODUCCION;
 		this.pasosSinMover = MAX_PASOS_SIN_MOVER;
@@ -66,6 +69,17 @@ public class Celula {
 		builder.append("-");
 		builder.append(pasosSinMover);
 		return builder.toString();
+	}
+
+	@Override
+	public Casilla ejecutaMovimiento(int f, int c, Superficie superficie) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean esComestible() {
+		return true;
 	}
 	
 }
