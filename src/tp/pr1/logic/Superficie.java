@@ -218,6 +218,55 @@ public class Superficie {
 	{
 		return this.superficie[cas.getFila()][cas.getColumna()].esComestible();	
 	}
+	
+	public Casilla[] casillasLlenas(int nllenas){
+		int cont = 0;
+		Casilla[] llenas = new Casilla[this.filas * this.columnas];
+		for (int fil = 0; fil < this.filas; fil++) {
+			for (int col = 0; col < this.columnas; col++) {
+				Casilla casilla = new Casilla(fil, col);
+				if(this.casillaLlena(casilla) ){
+					llenas[cont] = new Casilla(fil, col);
+					cont++;
+				}
+			}
+		}
+				nllenas = cont; 
+				return llenas;	
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////
+	/////
+	/////				Estas son las funciones que añado para intentar quitar la poscion de array de
+	/////				casillas ocupadas pero no se como ponerselo a la celulaCompleja
+	/////
+	
+	
+	
+	
+	public void quitarUnaCasillaAProcesar(Casilla cas, Casilla[] array, int nllenas)
+	{
+		this.moverCasillasADerecha(array, this.buscarCasilla(array, nllenas, cas), nllenas);
+	}
+	
+	private int buscarCasilla(Casilla[] llenas, int nllenas, Casilla cas)
+	{
+		int indice = -1;
+		
+		while(!llenas[indice].esIgual(cas) && indice < nllenas)
+			indice++;
+			
+		return indice;
+	}
+	
+	private Casilla[] moverCasillasADerecha(Casilla[] casilla, int desdeDonde, int nllenas)
+	{
+		for(int i = desdeDonde; i < nllenas - 1; i++)
+			this.modificarCasilla(casilla[i + 1], casilla[i] );
+		
+		return casilla;
+	}
 }
 
 

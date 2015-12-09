@@ -25,11 +25,12 @@ public class CelulaCompleja extends Celula{
 		if(!this.movido)
 		{
 			if(come) 
-			{	
+			{	//He cambiado el orden de los ifs para que expote correctamente
 				if(this.menosComer() && this.moverCelula(casV, casN, superficie))
 				{
 					if(casV.esMenor(casN))
-						this.movido = true;
+						//Aqui debe insertarse el cambio que elimina la posicion que no queremos procesar
+						//this.movido = true;
 					builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--COME--" + '\n');
 				}
 				else

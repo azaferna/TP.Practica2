@@ -30,7 +30,7 @@ public class Mundo {
 	//Da un paso en el mundo
 	public String evoluciona(){
 		Casilla[] llenas = new Casilla[this.superficie.getFil() * this.superficie.getCol()];
-		int indice = casillasLlenas(llenas);
+		int indice = this.superficie.casillasLlenas(llenas);
 		StringBuilder builder = new StringBuilder();
 		
 		for(int i = 0; i < indice; i++){
@@ -54,20 +54,6 @@ public class Mundo {
 	
 
 	//Devuelve el indice de un array con todas las casillas llenas del tablero
-	public int casillasLlenas(Casilla[] llenas){
-		int cont = 0;
-	
-		for (int fil = 0; fil < this.superficie.getFil(); fil++) {
-			for (int col = 0; col < this.superficie.getCol(); col++) {
-				Casilla casilla = new Casilla(fil, col);
-				if(this.superficie.casillaLlena(casilla) ){
-					llenas[cont] = new Casilla(fil, col);
-					cont++;
-				}
-			}
-		}
-				return cont;	
-	}
 
 	//Pone todas las casillas de la superficie a null
 	public void vaciarMundo(){
