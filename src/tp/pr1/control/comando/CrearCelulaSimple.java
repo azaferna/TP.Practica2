@@ -3,14 +3,14 @@ package tp.pr1.control.comando;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Mundo;
 
-public class CrearCelula extends Comando{
+public class CrearCelulaSimple extends Comando{
 
 	private Casilla casilla;
 	@Override
 	public String ejecuta(Mundo mundo)
 	{
 		
-		if (mundo.crearCelula(casilla))
+		if (mundo.crearCelulaSimple(casilla))
 		
 			return"Creamos una nueva celula en la posicion " + casilla.toString() + '\n' + mundo.toString();
 		else
@@ -22,7 +22,7 @@ public class CrearCelula extends Comando{
 	@Override
 	public Comando parsea(String[] cadena) { 
 		Comando aux = null;
-		if(cadena.length ==  3 && cadena[0].equalsIgnoreCase("CREARCELULA"))
+		if(cadena.length ==  3 && cadena[0].equalsIgnoreCase("CREARCELULASIMPLE"))
 		{
 			int i = Integer.parseInt(cadena[1]);
 			int j = Integer.parseInt(cadena[2]);
@@ -38,7 +38,7 @@ public class CrearCelula extends Comando{
 	@Override
 	public String textoAyuda() {
 		
-		return "	CREARCELULA F C :crea una nueva celula en la posición (f,c) si es posible." + '\n';
+		return "	CREARCELULASIMPLE F C :crea una nueva celula en la posición (f,c) si es posible." + '\n';
 	}
 
 }

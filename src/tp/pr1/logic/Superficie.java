@@ -1,11 +1,14 @@
 package tp.pr1.logic;
 
 import tp.pr1.logic.celula.CelulaSimple;
+import tp.pr1.logic.celula.Celula;
+import tp.pr1.logic.celula.CelulaCompleja;
 
 public class Superficie {
-	private CelulaSimple[][] superficie;
+	private Celula[][] superficie;
 	private int filas;
 	private int columnas;
+	
 	
 	/* 						FUNCIONES DE INICIALIZACION					*/
 	
@@ -17,7 +20,7 @@ public class Superficie {
 		this.filas = filas;
 		this.columnas = columnas;
 		
-		this.superficie = new CelulaSimple[this.filas][this.columnas];
+		this.superficie = new Celula[this.filas][this.columnas];
 		this.todasANull();
 	}		
 	
@@ -63,8 +66,13 @@ public class Superficie {
 	
 	/*							FUNCIONES DE PROCESAMIENTO				   */
 	
+	public String ejecutaMovimiento(Casilla cas)
+	{
+		return this.superficie[cas.getFila()][cas.getColumna()].ejecutaMovimiento(cas, this);
+	}
+	
 	/**
-	 * Crea una célula en la casilla.
+	 * Crea una célulaSimple en la casilla.
 	 * @param casilla
 	 * @return celulaCreada;
 	 */
@@ -75,6 +83,24 @@ public class Superficie {
 		if(this.dentroDeSuperficie(casilla) && !this.casillaLlena(casilla))
 		{
 			this.superficie[casilla.getFila()][casilla.getColumna()] = new CelulaSimple();
+			ok = true;
+		}
+	
+		return ok;
+	}
+	
+	/**
+	 * Crea una célulaCompleja en la casilla.
+	 * @param casilla
+	 * @return celulaCreada;
+	 */
+	public boolean crearCelulaCompleja(Casilla casilla)
+	{
+		boolean ok = false;
+		
+		if(this.dentroDeSuperficie(casilla) && !this.casillaLlena(casilla))
+		{
+			this.superficie[casilla.getFila()][casilla.getColumna()] = new CelulaCompleja();
 			ok = true;
 		}
 	
@@ -100,15 +126,16 @@ public class Superficie {
 	
 	/**
 	 * Crea n celulas en la superficie
-	 * @param     n -> Numero de celulas a crear
+	 * @param     nSimples -> Numero de celulas simples a crear 
+	 * @param     nCmplejas -> Numero de celulas complejas a crear 
 	 * @return true -> Si se han podido crear todas.
 	 */
-	public boolean llenarNCeluslasLibres(int n)
+	public boolean llenarNCeluslasLibres(int nSimples, int nComplejas)
 	{
 		boolean ok = false;
 		int col = 0, fil = 0;
 		int cont = 0;
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < nSimples; i++)
 		{	
 			while(!ok)
 			{
@@ -118,7 +145,7 @@ public class Superficie {
 				col = (int) (Math.random()*this.columnas);
 				
 				Casilla casilla = new Casilla(fil, col);
-				if(this.crearCelula(casilla))
+				if(this.crearCelulaSimple(casilla))
 				{
 					ok = true;
 					cont++;
@@ -126,33 +153,30 @@ public class Superficie {
 			}
 			ok = false;
 		}
-		return (cont == n);
+		for (int i = 0; i < nComplejas; i++)
+		{	
+			while(!ok)
+			{
+				//x =(int)Math.random() * n //genera un numero entero entre 0 y n
+
+				fil = (int) (Math.random()*this.filas);
+				col = (int) (Math.random()*this.columnas);
+				
+				Casilla casilla = new Casilla(fil, col);
+				if(this.crearCelulaCompleja(casilla))
+				{
+					ok = true;
+					cont++;
+				}
+			}
+			ok = false;
+		}
+		return (cont == nSimples + nComplejas);
 	}
 	
-
-	/**
-	 * Mueve la celula de casV a casN (una posicion adyacente a ella vacia)
-	 * @param  casV -> casilla vieja
-	 * @param  casN -> casilla nueva
-	 * @return true -> si lo ha podido mover correctamente
-	 */
-	public boolean moverCelula(Casilla casV, Casilla casN)
+	public void modificarCasilla(Casilla casV, Casilla casN )
 	{
-		int filV = casV.getFila(), colV = casV.getColumna();
-		boolean ok = false;
-		
-		if(casN != null)
-		{ 	
-			int filN = casN.getFila(), colN = casN.getColumna();
-			
-			this.superficie[filN][colN] = this.superficie[filV][colV];
-			this.eliminarCelula(casV);
-			
-			
-			ok = true;
-		}
-			
-		return ok;
+		this.superficie[casN.getFila()][casN.getColumna()] = this.superficie[casV.getFila()][casV.getColumna()];
 	}
 	
 	//Devuelve un String con el dibujo del tablero.
@@ -181,42 +205,10 @@ public class Superficie {
 		return (this.superficie[casilla.getFila()][casilla.getColumna()] != null);
 	}
 		
-	//Crea un array con todas las casillas vacias que hay alrededor de una celula
-	public int arrayVaciasAlrededor(Casilla casilla, Casilla[] casVacias)
-		{	
-		int indice = 0;
-		int fil = casilla.getFila(), col = casilla.getColumna();
-			//Crea un array de casillas vacias alrededor de la celula
-			for(int f = fil - 1;  f <= (fil + 1) ; f++){
-				for(int c = col - 1; c <= (col + 1); c++){
-					if(( f >= 0 && f < this.filas ) && ( c >= 0 && c < this.columnas) ){
-						Casilla cas = new Casilla(f, c);
-						if ( !this.casillaLlena(cas) ){
-							casVacias[indice] = new Casilla(cas.getFila(), cas.getColumna());
-							indice++;
-						}
-					}
-				}
-				
-			}
-			return indice;
-		}
-	
-	//Si puede resta pasos de reproduccion
-	public boolean menosPasosRep(Casilla casilla){
-		return this.superficie[casilla.getFila()][casilla.getColumna()].menosPasosRep();
+	public boolean casillaComastible(Casilla cas)
+	{
+		return this.superficie[cas.getFila()][cas.getColumna()].esComestible();	
 	}
-	
-	//Si puede resta pasos de muerte
-	public boolean menosPasosMover(Casilla casilla){
-		return this.superficie[casilla.getFila()][casilla.getColumna()].menosSinMover();
-	}
-	
-	//Reincia los pasos de reproduccion
-	public void iniPasosReproduccion(Casilla casilla){
-		this.superficie[casilla.getFila()][casilla.getColumna()].iniReproduccion();
-	}
-	
 }
 
 

@@ -3,11 +3,13 @@ package tp.pr1.logic;
 public class Casilla {
 	private int fila;
 	private int columna;
+	private boolean movida;
 
 	//Crea una variable casilla
 	public Casilla(int fil, int col) {
 		this.fila = fil;
 		this.columna = col;
+		this.movida = false;
 
 	}
 
@@ -21,7 +23,14 @@ public class Casilla {
 		return this.columna;
 	}
 	
-	
+	public void setMovida(boolean mov)
+	{
+		this.movida = mov;
+	}
+	public boolean getMovida()
+	{
+		return this.movida;
+	}
 	//Devuelve un string que pinta la posicion de la casilla
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
