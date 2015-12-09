@@ -5,8 +5,8 @@ public class Mundo {
 	private boolean simulacionTerminada;
 	
 
-	public static final int INICELLSIMPLES = 6; // Número inicial de células en la superficie
-	public static final int INICELLCOMPLEJAS = 6;
+	public static final int INICELLSIMPLES = 12; // Número inicial de células en la superficie
+	public static final int INICELLCOMPLEJAS = 0;
 	public static final int INIFIL = 3;//Numero inicial de filas
 	public static final int INICOL = 4;// Número inicial de columnas
 	
@@ -34,7 +34,7 @@ public class Mundo {
 		StringBuilder builder = new StringBuilder();
 		
 		for(int i = 0; i < indice; i++){
-				if(this.superficie.casillaLlena(llenas[i] ) && !llenas[i].getMovida() ){
+				if(this.superficie.casillaLlena(llenas[i]) ){
 					builder.append(this.superficie.ejecutaMovimiento(llenas[i]));
 			}
 		}

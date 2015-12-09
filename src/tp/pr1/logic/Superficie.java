@@ -3,7 +3,12 @@ package tp.pr1.logic;
 import tp.pr1.logic.celula.CelulaSimple;
 import tp.pr1.logic.celula.Celula;
 import tp.pr1.logic.celula.CelulaCompleja;
-
+/**
+ * 
+ * @author AzaharaFernandez
+ * @version 
+ *
+ */
 public class Superficie {
 	private Celula[][] superficie;
 	private int filas;
@@ -173,7 +178,11 @@ public class Superficie {
 		}
 		return (cont == nSimples + nComplejas);
 	}
-	
+	/**	
+	 * 
+	 * @param casV
+	 * @param casN
+	 */
 	public void modificarCasilla(Casilla casV, Casilla casN )
 	{
 		this.superficie[casN.getFila()][casN.getColumna()] = this.superficie[casV.getFila()][casV.getColumna()];

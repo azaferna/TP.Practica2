@@ -6,13 +6,15 @@ import tp.pr1.logic.Superficie;
 public class CelulaCompleja extends Celula{
 
 	private int explota;
+	private boolean movido;
 	public static final int MAX_COMER = 3;
 	
 	public CelulaCompleja()
 	{
 		this.explota = MAX_COMER;
+		this.movido = false;
 	}
-	
+	//arrastrar la casilla N a superficie y eliminarla del array de llenas
 	public String ejecutaMovimiento(Casilla casV, Superficie superficie) {
 		
 		StringBuilder builder = new StringBuilder();
@@ -20,23 +22,30 @@ public class CelulaCompleja extends Celula{
 		boolean come = false;
 		if(superficie.casillaLlena(casN))
 			come = superficie.casillaComastible(casN);
-		
-		if( come && this.moverCelula(casV, casN, superficie) )
-		{	
-			if(this.menosComer())
-				builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--COME--" + '\n');
-			else
-			{
-				builder.append("Explota la celula " + casV.toString() + '\n');
-				superficie.eliminarCelula(casV);
+		if(!this.movido)
+		{
+			if(come) 
+			{	
+				if(this.menosComer() && this.moverCelula(casV, casN, superficie))
+				{
+					if(casV.esMenor(casN))
+						this.movido = true;
+					builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--COME--" + '\n');
+				}
+				else
+				{
+					builder.append("Explota la celula " + casV.toString() + '\n');
+					superficie.eliminarCelula(casV);
+				}
+				
 			}
+			else if(!come && this.moverCelula(casV, casN, superficie))
+				builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--NO COME--"+ '\n');
+			else
+				builder.append("Celula Compleja no se ha movido"+ '\n');
+		}else
+			this.movido = false;
 			
-		}
-		else if(!come && this.moverCelula(casV, casN, superficie))
-			
-			builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--NO COME--"+ '\n');
-		else
-			builder.append("Celula Compleja no se ha movido"+ '\n');
 		return builder.toString();
 	}
 	
@@ -88,10 +97,10 @@ public class CelulaCompleja extends Celula{
 	
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("  * ");
-		/*builder.append(" ");
-		builder.append("  " + this.explota + " ");
-		*/
+		//builder.append("  * ");
+		builder.append(" ");
+		builder.append(" *" + this.explota + " ");
+		
 		return builder.toString();
 	}
 
