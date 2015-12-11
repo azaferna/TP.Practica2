@@ -66,14 +66,13 @@ public class Superficie {
 		return ((casilla.getFila() < this.filas && casilla.getFila() >= 0) && (casilla.getColumna() < this.columnas && casilla.getColumna() >=0));
 	}
 	
-	/*---------------------------------------------------------------------*/
-	
-	
-	/*							FUNCIONES DE PROCESAMIENTO				   */
-	
-	public String ejecutaMovimiento(Casilla cas)
+	public Casilla casillaNueva(Casilla casV)
 	{
-		return this.superficie[cas.getFila()][cas.getColumna()].ejecutaMovimiento(cas, this);
+		return this.superficie[casV.getFila()][casV.getColumna()].generarCasillaVacia(casV, this);
+	}
+	public String ejecutaMovimiento(Casilla casV, Casilla casN)
+	{
+		return this.superficie[casV.getFila()][casV.getColumna()].ejecutaMovimiento(casV, this, casN);
 	}
 	
 	/**
@@ -129,55 +128,6 @@ public class Superficie {
 		return ok;
 	}
 	
-	/**
-	 * Crea n celulas en la superficie
-	 * @param     nSimples -> Numero de celulas simples a crear 
-	 * @param     nCmplejas -> Numero de celulas complejas a crear 
-	 * @return true -> Si se han podido crear todas.
-	 */
-	public boolean llenarNCeluslasLibres(int nSimples, int nComplejas)
-	{
-		boolean ok = false;
-		int col = 0, fil = 0;
-		int cont = 0;
-		for (int i = 0; i < nSimples; i++)
-		{	
-			while(!ok)
-			{
-				//x =(int)Math.random() * n //genera un numero entero entre 0 y n
-
-				fil = (int) (Math.random()*this.filas);
-				col = (int) (Math.random()*this.columnas);
-				
-				Casilla casilla = new Casilla(fil, col);
-				if(this.crearCelulaSimple(casilla))
-				{
-					ok = true;
-					cont++;
-				}
-			}
-			ok = false;
-		}
-		for (int i = 0; i < nComplejas; i++)
-		{	
-			while(!ok)
-			{
-				//x =(int)Math.random() * n //genera un numero entero entre 0 y n
-
-				fil = (int) (Math.random()*this.filas);
-				col = (int) (Math.random()*this.columnas);
-				
-				Casilla casilla = new Casilla(fil, col);
-				if(this.crearCelulaCompleja(casilla))
-				{
-					ok = true;
-					cont++;
-				}
-			}
-			ok = false;
-		}
-		return (cont == nSimples + nComplejas);
-	}
 	/**	
 	 * 
 	 * @param casV
@@ -214,60 +164,13 @@ public class Superficie {
 		return (this.superficie[casilla.getFila()][casilla.getColumna()] != null);
 	}
 		
-	public boolean casillaComastible(Casilla cas)
+	public boolean casillaComestible(Casilla cas)
 	{
 		return this.superficie[cas.getFila()][cas.getColumna()].esComestible();	
 	}
 	
-	public Casilla[] casillasLlenas(int nllenas){
-		int cont = 0;
-		Casilla[] llenas = new Casilla[this.filas * this.columnas];
-		for (int fil = 0; fil < this.filas; fil++) {
-			for (int col = 0; col < this.columnas; col++) {
-				Casilla casilla = new Casilla(fil, col);
-				if(this.casillaLlena(casilla) ){
-					llenas[cont] = new Casilla(fil, col);
-					cont++;
-				}
-			}
-		}
-				nllenas = cont; 
-				return llenas;	
 	}
-	
-	
-	///////////////////////////////////////////////////////////////////////////////////////
-	/////
-	/////				Estas son las funciones que añado para intentar quitar la poscion de array de
-	/////				casillas ocupadas pero no se como ponerselo a la celulaCompleja
-	/////
-	
-	
-	
-	
-	public void quitarUnaCasillaAProcesar(Casilla cas, Casilla[] array, int nllenas)
-	{
-		this.moverCasillasADerecha(array, this.buscarCasilla(array, nllenas, cas), nllenas);
-	}
-	
-	private int buscarCasilla(Casilla[] llenas, int nllenas, Casilla cas)
-	{
-		int indice = -1;
-		
-		while(!llenas[indice].esIgual(cas) && indice < nllenas)
-			indice++;
-			
-		return indice;
-	}
-	
-	private Casilla[] moverCasillasADerecha(Casilla[] casilla, int desdeDonde, int nllenas)
-	{
-		for(int i = desdeDonde; i < nllenas - 1; i++)
-			this.modificarCasilla(casilla[i + 1], casilla[i] );
-		
-		return casilla;
-	}
-}
+
 
 
 

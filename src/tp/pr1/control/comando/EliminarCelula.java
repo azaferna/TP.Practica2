@@ -1,13 +1,11 @@
 package tp.pr1.control.comando;
-
-import tp.pr1.control.Controlador;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Mundo;
 
 public class EliminarCelula extends Comando{
 
 	private Casilla casilla;
-	@Override
+	
 	public String ejecuta(Mundo mundo) {
 		
 		

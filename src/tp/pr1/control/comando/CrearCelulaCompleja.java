@@ -6,12 +6,11 @@ import tp.pr1.logic.Mundo;
 public class CrearCelulaCompleja extends Comando{
 
 	private Casilla casilla;
-	@Override
+	
 	public String ejecuta(Mundo mundo)
 	{
 		
 		if (mundo.crearCelulaCompleja(casilla))
-		
 			return"Creamos una nueva celula en la posicion " + casilla.toString() + '\n' + mundo.toString();
 		else
 			return "Error a crear una celula";

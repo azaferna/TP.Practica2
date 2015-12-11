@@ -26,19 +26,7 @@ public class Casilla {
 		builder.append("( " + this.fila + "," + this.columna + " )");
 		return builder.toString();
 	}
-	//Funciones para comparar casillas
-	public boolean esMenor(Casilla mayor)
-	{
-		boolean ok = false;
-		if(this.fila < mayor.fila)
-			ok = true;
-		else if(this.fila  == mayor.fila){
-			if(this.columna < this.columna)
-				ok = true;
-		}
-		
-		return ok;
-	}
+
 	public boolean esIgual(Casilla casilla){
 		return (this.fila == casilla.fila && this.columna == casilla.columna);
 	}
