@@ -66,6 +66,8 @@ public class Superficie {
 		return ((casilla.getFila() < this.filas && casilla.getFila() >= 0) && (casilla.getColumna() < this.columnas && casilla.getColumna() >=0));
 	}
 	
+	
+	
 	public Casilla casillaNueva(Casilla casV)
 	{
 		return this.superficie[casV.getFila()][casV.getColumna()].generarCasillaVacia(casV, this);
