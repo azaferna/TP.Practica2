@@ -1,11 +1,11 @@
 package tp.pr1.control.comando;
-import tp.pr1.logic.Mundo;
+import tp.pr1.control.Controlador;
 
 public class Paso extends Comando {
 
 	
-	public String ejecuta(Mundo mundo) {
-		return mundo.evoluciona() + mundo.toString();
+	public String ejecuta(Controlador control) {
+		return control.evoluciona() + control.stringMundo();
 	}
 
 	public Comando parsea(String[] cadena) {

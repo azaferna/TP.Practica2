@@ -15,7 +15,11 @@ public class ParserComando {
 	private static final int MAXCOMANDOS = 8;
 	private static final Comando comandos[] = { new Iniciar(), new CrearCelulaSimple(), new CrearCelulaCompleja(),  new Paso(), new Salir(), 
 			new Vaciar(), new EliminarCelula(), new Ayuda()            };
-	
+	/**
+	 * Recive una cadena de strings y busca su correspondiente comando dentro del array de comandos.
+	 * @param cadenaString
+	 * @return Comando
+	 */
 	public Comando parseaComando(String[] cadenaString)
 	{
 		Comando aux = null;
@@ -26,6 +30,10 @@ public class ParserComando {
 		}
 		return aux;
 	}
+	/**
+	 * Esta funcion recoge todos los strings devueltos por las funciones ayuda de cada comando en un builder.append .
+	 * @return builder.append. 
+	 */
 	public String AyudaComando()
 	{
 		StringBuilder builder = new StringBuilder();

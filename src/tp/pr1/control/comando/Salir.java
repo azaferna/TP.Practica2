@@ -1,10 +1,10 @@
 package tp.pr1.control.comando;
-import tp.pr1.logic.Mundo;
+import tp.pr1.control.Controlador;
 
 public class Salir extends Comando{
 	
-	public String ejecuta(Mundo mundo) {
-		mundo.setSimulacionTerminada(false);
+	public String ejecuta(Controlador control) {
+		control.setSimulacionTerminada(true);
 		return "Fin de la simulacion...";
 	}
 

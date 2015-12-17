@@ -79,8 +79,8 @@ public class Superficie {
 	
 	/**
 	 * Crea una célulaSimple en la casilla.
-	 * @param casilla
-	 * @return celulaCreada;
+	 * @param casilla -> Posicion donde queremos crear la celula
+	 * @return celulaCreada -> true si celula creada
 	 */
 	public boolean crearCelulaSimple(Casilla casilla)
 	{
@@ -97,10 +97,10 @@ public class Superficie {
 	
 	/**
 	 * Crea una célulaCompleja en la casilla.
-	 * @param casilla
-	 * @return celulaCreada;
+	 * @param casilla -> Posicion donde queremos crear la celula
+	 * @return celulaCreada -> true si celula creada
 	 */
-	public boolean crearCelulaCompleja(Casilla casilla)
+	public boolean crearCelulaCompleja(Casilla casilla)//Transformar en añadirX(i, j, X);
 	{
 		boolean ok = false;
 		
@@ -131,16 +131,19 @@ public class Superficie {
 	}
 	
 	/**	
-	 * 
-	 * @param casV
-	 * @param casN
+	 * Dada dos casillas una nueva y vieja, introduce en la nueva la vieja.
+	 * @param casV -> Casilla que queremos mover
+	 * @param casN -> Posicion donde la hemos movido
 	 */
 	public void modificarCasilla(Casilla casV, Casilla casN )
 	{
 		this.superficie[casN.getFila()][casN.getColumna()] = this.superficie[casV.getFila()][casV.getColumna()];
 	}
 	
-	//Devuelve un String con el dibujo del tablero.
+	/**
+
+	 *  @return Devuelve un String con el dibujo del tablero.
+	 */
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("");
@@ -161,11 +164,18 @@ public class Superficie {
 		return builder.toString();
 	}
 
-	//Devuelve true si la casilla esta ocupada por una celula;
+	/**
+	 * @param casilla -> casilla a comprobar
+	 * @return  Devuelve true si la casilla esta ocupada por una celula.
+	 */
 	public boolean casillaLlena(Casilla casilla){
 		return (this.superficie[casilla.getFila()][casilla.getColumna()] != null);
 	}
 		
+	/**
+	 * @param cas -> casilla a comprobar
+	 * @return  Dada unca casilla devuelve true si la casilla es comestible.
+	 */
 	public boolean casillaComestible(Casilla cas)
 	{
 		return this.superficie[cas.getFila()][cas.getColumna()].esComestible();	

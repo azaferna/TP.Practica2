@@ -1,18 +1,18 @@
 package tp.pr1.control.comando;
 
+import tp.pr1.control.Controlador;
 import tp.pr1.logic.Casilla;
-import tp.pr1.logic.Mundo;
 
 public class CrearCelulaSimple extends Comando{
 
 	private Casilla casilla;
 	@Override
-	public String ejecuta(Mundo mundo)
+	public String ejecuta(Controlador control)
 	{
 		
-		if (mundo.crearCelulaSimple(casilla))
+		if (control.crearCelulaSimple(casilla))
 		
-			return"Creamos una nueva celula en la posicion " + casilla.toString() + '\n' + mundo.toString();
+			return"Creamos una nueva celula en la posicion " + casilla.toString() + '\n' + control.stringMundo();
 		else
 			return "Error a crear una celula";
 		

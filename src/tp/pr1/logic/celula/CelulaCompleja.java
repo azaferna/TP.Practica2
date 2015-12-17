@@ -18,13 +18,7 @@ public class CelulaCompleja extends Celula{
 		this.explota = MAX_COMER;
 	}
 
-	/**
-	 * Ejecuta un movimiento siguiendo las normas del juego
-	 * @param casV -> Posicion de la casilla a mover
-	 * @param casN -> Posicion donde se tiene que mover la casilla
-	 * @param superficie -> superficie donde trabajamos
-	 * @return Devuelve una cadena de texto con todo lo que ha sucedido durante el movimiento
-	 */
+	@Override
 	public String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN ) {
 		
 		StringBuilder builder = new StringBuilder();
@@ -38,8 +32,9 @@ public class CelulaCompleja extends Celula{
 					builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--COME--" + '\n');
 			else
 			{
-				builder.append("Explota la celula " + casV.toString() + '\n');
+				builder.append("Explota la celula " + casV.toString() + "despues de comer en " + casN.toString() + '\n');
 				superficie.eliminarCelula(casV);
+				superficie.eliminarCelula(casN);
 			}
 			
 		}
@@ -51,18 +46,12 @@ public class CelulaCompleja extends Celula{
 		return builder.toString();
 	}
 	
-	/**
-	 * @return devuelve si el tipo de celula es comestible o no
-	 */
+	@Override
 	public boolean esComestible() {
 		return false;
 	}
 	
-	/**
-	 * Genera una casilla vacia acorde con las normas del juego
-	 * @param casilla -> Es la posicion de la celula sobre la que queremos generar la celula libre
-	 * @param superficie -> supeficie sobre la que trabajamos
-	 */
+	@Override
 	public Casilla generarCasillaVacia(Casilla casilla, Superficie superficie)
 	{
 		Casilla cas;
@@ -77,18 +66,16 @@ public class CelulaCompleja extends Celula{
 		
 		
 		//Para pruebas
-		System.out.println("La posicion nueva generada para la celula " + casilla.toString() + " es " + cas.toString());
+		//System.out.println("La posicion nueva generada para la celula " + casilla.toString() + " es " + cas.toString());
 		return cas;
 	}
 	
-	/**
-	 * @return Devuelve una cadena de texto con la forma en la que se pinta una celula
-	 */
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		//builder.append("  * ");
-		builder.append(" ");
-		builder.append(" *" + this.explota + " ");
+		builder.append("  * ");
+		/*builder.append(" ");
+		builder.append(" *" + this.explota + " ");*/
 		 
 		return builder.toString();
 	}

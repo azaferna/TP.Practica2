@@ -1,14 +1,14 @@
 package tp.pr1.control.comando;
 
-import tp.pr1.logic.Mundo;
+import tp.pr1.control.Controlador;
 
 public class Vaciar extends Comando{
 
 	@Override
-	public String ejecuta(Mundo mundo) {
+	public String ejecuta(Controlador control) {
 		
-		mundo.vaciarMundo();
-		return "Vaciando mundo..."+ '\n' + mundo.toString();
+		control.vaciarMundo();
+		return "Vaciando mundo..."+ '\n' + control.stringMundo();
 		
 				
 	}

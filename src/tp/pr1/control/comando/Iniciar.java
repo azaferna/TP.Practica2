@@ -1,18 +1,19 @@
 package tp.pr1.control.comando;
-import tp.pr1.logic.Mundo;
+import tp.pr1.control.Controlador;
 
 public class Iniciar extends Comando {
 
 	public Iniciar(){}
 	
-	public String ejecuta(Mundo mundo) {
+	public String ejecuta(Controlador control) {
 		
-		mundo.vaciarMundo();
-		if (!mundo.llenarNCelulasAleatorias())
-			return "Error al inicializar" + '\n'+ mundo.toString();
+		control.vaciarMundo();
+		/*if ()//Cambiar por iniciar cuando este hecho
+			return "Error al inicializar" + '\n'+ control.stringMundo().toString();
 		else
-			return "Reiniciando mundo..."+ '\n' + mundo.toString();
-			
+			return "Reiniciando mundo..."+ '\n' + control.stringMundo().toString();
+		*/
+		return "";
 		 
 	}
 

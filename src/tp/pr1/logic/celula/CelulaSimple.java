@@ -23,13 +23,7 @@ public class CelulaSimple extends Celula {
 		this.pasosSinMover = MAX_PASOS_SIN_MOVER;
 	}
 
-	/**
-	 * Ejecuta un movimiento siguiendo las normas del juego
-	 * @param casV -> Posicion de la casilla a mover
-	 * @param casN -> Posicion donde se tiene que mover la casilla
-	 * @param superficie -> superficie donde trabajamos
-	 * @return Devuelve una cadena de texto con todo lo que ha sucedido durante el movimiento
-	 */
+	@Override
 	public String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN) {
 		
 		StringBuilder builder = new StringBuilder();
@@ -71,18 +65,12 @@ public class CelulaSimple extends Celula {
 		return builder.toString();
 	}
 	
-	/**
-	 * @return devuelve si el tipo de celula es comestible o no
-	 */
+	@Override
 	public boolean esComestible() {
 		return true;
 	}
 	
-	/**
-	 * Genera una casilla vacia acorde con las normas del juego
-	 * @param casilla -> Es la posicion de la celula sobre la que queremos generar la celula libre
-	 * @param superficie -> supeficie sobre la que trabajamos
-	 */
+	@Override
 	public Casilla generarCasillaVacia(Casilla casilla, Superficie superficie)
 	{
 		int indice, rand;
@@ -95,23 +83,21 @@ public class CelulaSimple extends Celula {
 			rand = (int) (Math.random()*indice);
 			cas = casVacias[rand];
 			//Para pruebas
-			System.out.println("La posicion nueva generada para la celula " + casilla.toString() + " es " + cas.toString());
+			//System.out.println("La posicion nueva generada para la celula " + casilla.toString() + " es " + cas.toString());
 		}
 		else
 		{
 			cas = null;
 			//Para pruebas
-			System.out.println("La posicion nueva generada para la celula " + casilla.toString() + " es null");
+			//System.out.println("La posicion nueva generada para la celula " + casilla.toString() + " es null");
 		}
 		return cas;
 	}
 	
-	/**
-	 * @return Devuelve una cadena de texto con la forma en la que se pinta una celula
-	 */
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		//builder.append("  X ");
+		builder.append("  X ");
 		/*builder.append(" ");
 		builder.append(pasosReproduccion);
 		builder.append("X");
@@ -162,12 +148,17 @@ public class CelulaSimple extends Celula {
 	}
 	
 	
-	
+	/**
+	 * Busca todas las posiciones vacias alrededor de una celula.
+	 * @param casilla -> Casilla alrededor de la que buscar
+	 * @param casVacias -> Array con las casillas vacias que hay alrededor de la celula
+	 * @param superficie -> suoerficie en la que nos manejamos
+	 * @return array de casillas vacias.
+	 */
 	private int arrayVaciasAlrededor(Casilla casilla, Casilla[] casVacias, Superficie superficie)
 	{	
 	int indice = 0;
 	int fil = casilla.getFila(), col = casilla.getColumna();
-		//Crea un array de casillas vacias alrededor de la celula
 		for(int f = fil - 1;  f <= (fil + 1) ; f++){
 			for(int c = col - 1; c <= (col + 1); c++){
 				if(( f >= 0 && f < superficie.getFil() ) && ( c >= 0 && c < superficie.getCol()) ){

@@ -1,17 +1,17 @@
 package tp.pr1.control.comando;
+import tp.pr1.control.Controlador;
 import tp.pr1.logic.Casilla;
-import tp.pr1.logic.Mundo;
 
 public class EliminarCelula extends Comando{
 
 	private Casilla casilla;
 	
-	public String ejecuta(Mundo mundo) {
+	public String ejecuta(Controlador control) {
 		
 		
-		if (mundo.eliminarCelula(casilla))
+		if (control.eliminarCelula(casilla))
 		
-			return "Eliminamos la celula de la posicion " + casilla.toString() + '\n' + mundo.toString();
+			return "Eliminamos la celula de la posicion " + casilla.toString() + '\n' + control.stringMundo();
 		else
 			return "Error al eliminar una celula";
 		

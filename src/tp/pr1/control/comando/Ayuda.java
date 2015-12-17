@@ -1,11 +1,12 @@
 package tp.pr1.control.comando;
 
-import tp.pr1.logic.Mundo;
 import tp.pr1.control.ParserComando;
+import tp.pr1.control.Controlador;
+
 public class Ayuda extends Comando{
 
-	
-	public String ejecuta(Mundo mundo) {
+	@Override
+	public String ejecuta(Controlador control) {
 		
 		ParserComando parser = new ParserComando();
 		return"POSIBLES COMANDOS:" + '\n' + parser.AyudaComando();
