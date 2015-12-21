@@ -3,7 +3,7 @@ package tp.pr1.logic.celula;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
 
-public class CelulaCompleja extends Celula{
+public class CelulaCompleja implements Celula{
 
 	/** Pasos que faltan para que una celula explote*/
 	private int explota;
@@ -28,7 +28,7 @@ public class CelulaCompleja extends Celula{
 
 		if(come) 
 		{	 
-			if(this.menosComer() && this.moverCelula(casV, casN, superficie))
+			if(this.menosComer() && this.moverCelula(superficie, casV, casN))
 					builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--COME--" + '\n');
 			else
 			{
@@ -38,7 +38,7 @@ public class CelulaCompleja extends Celula{
 			}
 			
 		}
-		else if(!come && this.moverCelula(casV, casN, superficie))
+		else if(!come && this.moverCelula(superficie, casV, casN))
 			builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--NO COME--"+ '\n');
 		else
 			builder.append("Celula Compleja en"+ casV.toString() +" no se ha movido"+ '\n');
@@ -95,5 +95,24 @@ public class CelulaCompleja extends Celula{
 		return ok;
 	}
 	
+	
+	
+	//ESTA FUNCION ANTES ESTABAN EN CELULA AL CONVERTIRLO EN INTERFACE LO HE COMPIADO Y PEGADO EN CADA UNA DE LAS CELULAS
+	/**
+	 * Mueve una celula de una casilla a otra y elimina de la posicon antigua
+	 * @return devuelve si se ha movido correctamente
+	 */
+	private boolean moverCelula(Superficie superficie, Casilla casV, Casilla casN){
+		boolean ok = false;
+		
+		if(!superficie.casillaLlena(casN) || superficie.casillaComestible(casN) )
+		{ 	
+			superficie.modificarCasilla(casV, casN);				
+			superficie.eliminarCelula(casV);	
+			
+			ok = true;
+		}	
+		return ok;
+	}
 
 }

@@ -2,7 +2,7 @@ package tp.pr1.control.comando;
 import tp.pr1.control.Controlador;
 import tp.pr1.logic.Casilla;
 
-public class EliminarCelula extends Comando{
+public class EliminarCelula implements Comando{
 
 	private Casilla casilla;
 	

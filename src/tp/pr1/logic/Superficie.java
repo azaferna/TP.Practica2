@@ -19,6 +19,8 @@ public class Superficie {
 	
 	/**
 	 * Constructor de una superficie
+	 * @param filas
+	 * @param columnas
 	 */
 	public Superficie(int filas, int columnas)
 	{	

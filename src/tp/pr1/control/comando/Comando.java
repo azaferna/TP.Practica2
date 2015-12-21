@@ -1,7 +1,8 @@
 package tp.pr1.control.comando;
 import tp.pr1.control.Controlador;
 
-public abstract class Comando {
+//TRANSFORMADO EN INTERFACE TODOS LOS EXTENDS DE LAS CLASES HIJAS LOS HE CAMBIADO POR IMPLEMENTS
+public interface Comando {
 	
 	/**
 	 * Dado un mundo, ejecuta el comando correspondiente sobre el.

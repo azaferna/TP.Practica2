@@ -1,7 +1,7 @@
 package tp.pr1.control.comando;
 import tp.pr1.control.Controlador;
 
-public class Paso extends Comando {
+public class Paso implements Comando {
 
 	
 	public String ejecuta(Controlador control) {

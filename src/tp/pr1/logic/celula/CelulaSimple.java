@@ -3,7 +3,7 @@ package tp.pr1.logic.celula;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
 
-public class CelulaSimple extends Celula {
+public class CelulaSimple implements Celula {
 	/**Pasos que faltan para que una celula se reproduzca.*/
 	private int pasosReproduccion;
 	/**Pasos que faltan para que una celula muera*/
@@ -30,7 +30,7 @@ public class CelulaSimple extends Celula {
 
 		if(casN != null)
 		{
-			if(this.moverCelula(casV, casN, superficie)){
+			if(this.moverCelula(superficie, casV, casN)){
 			builder.append("Movimiento de" + casV.toString() + " a " + casN.toString() + '\n');
 			
 				if(!this.menosPasosRep()){
@@ -172,6 +172,24 @@ public class CelulaSimple extends Celula {
 			
 		}
 		return indice;
+	}
+	
+	//ESTA FUNCION ANTES ESTABAN EN CELULA AL CONVERTIRLO EN INTERFACE LO HE COMPIADO Y PEGADO EN CADA UNA DE LAS CELULAS
+	/**
+	 * Mueve una celula de una casilla a otra y elimina de la posicon antigua
+	 * @return devuelve si se ha movido correctamente
+	 */
+	private boolean moverCelula(Superficie superficie, Casilla casV, Casilla casN){
+		boolean ok = false;
+		
+		if(!superficie.casillaLlena(casN) || superficie.casillaComestible(casN) )
+		{ 	
+			superficie.modificarCasilla(casV, casN);				
+			superficie.eliminarCelula(casV);	
+			
+			ok = true;
+		}	
+		return ok;
 	}
 
 }

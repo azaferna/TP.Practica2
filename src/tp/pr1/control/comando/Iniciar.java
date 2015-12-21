@@ -1,7 +1,7 @@
 package tp.pr1.control.comando;
 import tp.pr1.control.Controlador;
 
-public class Iniciar extends Comando {
+public class Iniciar implements Comando {
 
 	public Iniciar(){}
 	

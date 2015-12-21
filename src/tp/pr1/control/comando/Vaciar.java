@@ -2,7 +2,7 @@ package tp.pr1.control.comando;
 
 import tp.pr1.control.Controlador;
 
-public class Vaciar extends Comando{
+public class Vaciar implements Comando{
 
 	@Override
 	public String ejecuta(Controlador control) {

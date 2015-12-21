@@ -5,6 +5,7 @@ import tp.pr1.control.comando.CrearCelulaSimple;
 import tp.pr1.control.comando.CrearCelulaCompleja;
 import tp.pr1.control.comando.EliminarCelula;
 import tp.pr1.control.comando.Iniciar;
+import tp.pr1.control.comando.Jugar;
 import tp.pr1.control.comando.Paso;
 import tp.pr1.control.comando.Salir;
 import tp.pr1.control.comando.Vaciar;
@@ -12,8 +13,8 @@ import tp.pr1.control.comando.Vaciar;
 
 
 public class ParserComando {
-	private static final int MAXCOMANDOS = 8;
-	private static final Comando comandos[] = { new Iniciar(), new CrearCelulaSimple(), new CrearCelulaCompleja(),  new Paso(), new Salir(), 
+	private static final int MAXCOMANDOS = 9;//AÑADIDO EL COMANDO JUGAR
+	private static final Comando comandos[] = { new Jugar(), new Iniciar(), new CrearCelulaSimple(), new CrearCelulaCompleja(),  new Paso(), new Salir(), 
 			new Vaciar(), new EliminarCelula(), new Ayuda()            };
 	/**
 	 * Recive una cadena de strings y busca su correspondiente comando dentro del array de comandos.

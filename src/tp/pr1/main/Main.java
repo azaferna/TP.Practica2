@@ -11,7 +11,7 @@ import tp.pr1.control.Controlador;
 public class Main {
 
 	/**
-	 * Main, crea un controlador y lanza la aplicación.
+	 * Main, crea un controlador y lanza la aplicaciï¿½n.
 	 * @param args
 	 */
 	public static void main(String[] args)

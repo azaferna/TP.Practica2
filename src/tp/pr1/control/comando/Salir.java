@@ -1,7 +1,7 @@
 package tp.pr1.control.comando;
 import tp.pr1.control.Controlador;
 
-public class Salir extends Comando{
+public class Salir implements Comando{
 	
 	public String ejecuta(Controlador control) {
 		control.setSimulacionTerminada(true);

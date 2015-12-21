@@ -3,7 +3,7 @@ package tp.pr1.control.comando;
 import tp.pr1.control.Controlador;
 import tp.pr1.logic.Casilla;
 
-public class CrearCelulaSimple extends Comando{
+public class CrearCelulaSimple implements Comando{
 
 	private Casilla casilla;
 	@Override
