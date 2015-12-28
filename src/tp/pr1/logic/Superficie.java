@@ -1,6 +1,11 @@
 package tp.pr1.logic;
 
 import tp.pr1.logic.celula.CelulaSimple;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 import tp.pr1.logic.celula.Celula;
 import tp.pr1.logic.celula.CelulaCompleja;
 /**
@@ -183,7 +188,87 @@ public class Superficie {
 		return this.superficie[cas.getFila()][cas.getColumna()].esComestible();	
 	}
 	
+	
+	
+	public void guardarSuperficie(FileWriter fw)
+	{	
+		try{
+			
+			for(int f = 0; f < this.filas; f++){
+				for(int c = 0; c < this.columnas; c++){
+					fw.write(Integer.toString (f));
+					fw.write(" ");
+				 	fw.write(Integer.toString(c));
+				 	fw.write(" ");
+					this.superficie[f][c].guardaCelula(fw);	
+					fw.write(System.getProperty("line.separator"));
+				}
+			}
+		}catch(IOException e){
+			System.out.println("Error E/S" + e);
+		}
 	}
+	
+	public boolean cargarSuperficie(Scanner sc)
+	{	boolean ok = true;
+	
+		while( sc.hasNext())
+		{	
+			int fila = sc.nextInt();
+			int columna = sc.nextInt();
+			String tipoCell = sc.next();
+			
+			if(tipoCell.equalsIgnoreCase("SIMPLE"))
+				this.superficie[fila][columna] = new CelulaSimple();
+			else if(tipoCell.equalsIgnoreCase("COMPLEJA"))
+				this.superficie[fila][columna] = new CelulaCompleja();
+			else
+				ok = false;
+			
+			if(ok)
+				this.superficie[fila][columna].cargaCelula(sc);
+		}
+		return ok;
+	}
+	
+	/*public void CargarTableroComplejo(Scanner sc )
+	{
+		
+		int fila, columna;
+		 if (cadena[2].equalsIgnoreCase("Simple"))
+		 {
+			 CelulaSimple cel = new CelulaSimple();;
+			 fila = Integer.parseInt(cadena[0]);
+			 columna = Integer.parseInt(cadena[1]);
+			 this.superficie[fila][columna] = cel.cargacelula(cadena); //mirar como va
+		
+		 }
+		 else
+		 {
+			 CelulaCompleja cel = new CelulaCompleja();;
+				fila = Integer.parseInt(cadena[0]);
+				columna = Integer.parseInt(cadena[1]);
+				this.superficie[fila][columna] = cel.cargacelula(cadena); //mirar como va
+			 
+		 }
+		
+	}
+	public void CargarTableroSimple(String[] cadena)
+	{
+		
+		int fila, columna;
+		CelulaSimple cel = new CelulaSimple();;
+		fila = Integer.parseInt(cadena[0]);
+		columna = Integer.parseInt(cadena[1]);
+		this.superficie[fila][columna] = cel.cargacelula(cadena); //mirar como va
+		
+		
+	}*/
+
+
+
+
+}
 
 
 

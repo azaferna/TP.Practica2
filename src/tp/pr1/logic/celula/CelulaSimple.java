@@ -1,5 +1,9 @@
 package tp.pr1.logic.celula;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
 
@@ -22,6 +26,29 @@ public class CelulaSimple implements Celula {
 		this.pasosReproduccion = PASOS_REPRODUCCION;
 		this.pasosSinMover = MAX_PASOS_SIN_MOVER;
 	}
+	
+
+	
+
+	public void setPasosReproduccion(int pasosReproduccion) {
+		this.pasosReproduccion = pasosReproduccion;
+	}
+
+
+	public void setPasosSinMover(int pasosSinMover) {
+		this.pasosSinMover = pasosSinMover;
+	}
+
+
+	public static int getMaxPasosSinMover() {
+		return MAX_PASOS_SIN_MOVER;
+	}
+
+
+	public static int getPasosReproduccion() {
+		return PASOS_REPRODUCCION;
+	}
+
 
 	@Override
 	public String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN) {
@@ -97,12 +124,12 @@ public class CelulaSimple implements Celula {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("  X ");
-		/*builder.append(" ");
+		//builder.append("  X ");
+		builder.append(" ");
 		builder.append(pasosReproduccion);
 		builder.append("X");
 		builder.append(pasosSinMover);
-		builder.append(" ");*/
+		builder.append(" ");
 		return builder.toString();
 	}
 	
@@ -190,6 +217,26 @@ public class CelulaSimple implements Celula {
 			ok = true;
 		}	
 		return ok;
+	}
+	public  void guardaCelula( FileWriter fw)
+	{
+		try{
+			fw.write("Simple ");
+			fw.write(Integer.toString(this.pasosReproduccion));
+			fw.write(" ");
+			fw.write(Integer.toString(this.pasosSinMover));
+		}
+		catch (IOException e){
+            System.out.println("Error E/S: "+e);
+		}
+	}
+
+	@Override
+	public void cargaCelula(Scanner sc) {
+		
+		this.pasosReproduccion = sc.nextInt();
+		this.pasosSinMover = sc.nextInt();
+		
 	}
 
 }

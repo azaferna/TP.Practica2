@@ -1,7 +1,16 @@
 package tp.pr1.logic.mundo;
 
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;//Ver donde lo pongo
+import java.io.IOException;
+
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
+import tp.pr1.logic.mundo.MundoSimple;
+import tp.pr1.logic.mundo.MundoComplejo;
+
+
 
 public abstract class Mundo {
 	protected Superficie superficie;
@@ -184,7 +193,7 @@ public abstract class Mundo {
 	 * @param llenas
 	 * @return un entero con el n�mero de casillas ocupadas.
 	 */
-	private int casillasLlenas(Casilla[] llenas){
+	protected int casillasLlenas(Casilla[] llenas){
 		int cont = 0;
 		for (int fil = 0; fil < this.superficie.getFil(); fil++) {
 			for (int col = 0; col < this.superficie.getCol(); col++) {
@@ -235,4 +244,45 @@ public abstract class Mundo {
 		
 		return casilla;
 	}
+	
+	/**
+	 * Carga el mundo de fichero 
+	 * @param nombFich 
+	 * @return mundocargado
+	 */
+	public Mundo cargarMundo(String nombFich)// ¿Por qué no se puede sacar del try catch?
+	{
+		Mundo mundocargado = this;
+		try{
+			//No se como solucionar el warning
+		 Scanner sc = new Scanner(new File(nombFich + ".txt" ));
+	     String tipo = sc.nextLine();
+	     
+	     if(tipo.equalsIgnoreCase("SIMPLE") || tipo.equalsIgnoreCase("COMPLEJO"))
+	     {
+	    	 int filas = sc.nextInt();
+	    	 int columnas = sc.nextInt();
+	     
+		     if (tipo.equalsIgnoreCase("SIMPLE"))
+		    	 mundocargado = new MundoSimple(filas, columnas, 0);
+		    	 
+		     else
+		    	 mundocargado = new MundoComplejo(filas, columnas, 0, 0);
+		    	
+		     mundocargado.superficie.cargarSuperficie(sc);	     
+	     }  	 
+		}
+		catch (IOException e){
+           System.out.println("Error E/S: "+e);
+		}
+		
+		return mundocargado;
+		
+	}
+		
+	/**
+	 * Guarda el mundo
+	 * @param nombFich
+	 */
+	public abstract void guardarMundo(String nombFich);
 }

@@ -1,5 +1,8 @@
 package tp.pr1.logic.celula;
 
+import java.io.FileWriter;
+import java.util.Scanner;
+
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
 
@@ -33,7 +36,13 @@ public interface Celula {
 	 */
 	public abstract Casilla generarCasillaVacia(Casilla casilla, Superficie superficie);
 	
+	public abstract void guardaCelula( FileWriter fw);
 	
+	/**
+	 * Carga los parametros correspondientes a cada tipo de celula
+	 * @param sc flujo de e/s
+	 */
+	public abstract void cargaCelula(Scanner sc);
 	
 	
 	

@@ -1,5 +1,9 @@
 package tp.pr1.logic.celula;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
 
@@ -18,6 +22,9 @@ public class CelulaCompleja implements Celula{
 		this.explota = MAX_COMER;
 	}
 
+	public void setExplota(int explota) {
+		this.explota = explota;
+	}
 	@Override
 	public String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN ) {
 		
@@ -73,9 +80,9 @@ public class CelulaCompleja implements Celula{
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("  * ");
-		/*builder.append(" ");
-		builder.append(" *" + this.explota + " ");*/
+		//builder.append("  * ");
+		builder.append(" ");
+		builder.append(" *" + this.explota + " ");
 		 
 		return builder.toString();
 	}
@@ -115,4 +122,23 @@ public class CelulaCompleja implements Celula{
 		return ok;
 	}
 
+	
+	public  void guardaCelula( FileWriter fw)
+	{
+		try{
+	 		 fw.write("Compleja ");
+			 fw.write(Integer.toString(this.explota));
+			
+			}
+			catch (IOException e){
+	            System.out.println("Error E/S: "+e);
+			}
+	
+		
+	}
+
+	@Override
+	public void cargaCelula(Scanner sc) {
+		this.explota = sc.nextInt();
+	}
 }

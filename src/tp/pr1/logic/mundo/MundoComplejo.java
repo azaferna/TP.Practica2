@@ -1,5 +1,9 @@
 package tp.pr1.logic.mundo;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 public class MundoComplejo extends Mundo {	
 	
 	
@@ -21,6 +25,29 @@ public class MundoComplejo extends Mundo {
 		this.llenarNCelulasAleatorias(1, this.simples);
 		this.llenarNCelulasAleatorias(2, this.complejas);
 	}
+	public void guardarMundo(String nombFich)
+	{
+		try{
+		 FileWriter fw = new FileWriter (nombFich + ".txt");
+		
+			 fw.write("complejo");
+		 	 fw.write(System.getProperty("line.separator"));
+		 	 
+		 	//Guardar mundo
+		 	 fw.write(Integer.toString (this.filas));
+		 	 fw.write(System.getProperty("line.separator"));
+		 	 fw.write(Integer.toString(this.columnas));
+		 	 fw.write(System.getProperty("line.separator"));
+		 	 this.superficie.guardarSuperficie(fw);
+		 fw.close();
+		 }
+		catch (IOException e){
+            System.out.println("Error E/S: "+e);
+		}
+	}
 
+
+		
+		
 
 }

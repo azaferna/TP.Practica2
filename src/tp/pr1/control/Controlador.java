@@ -1,10 +1,12 @@
 package tp.pr1.control;
 
+
 import java.util.Scanner;
 
 import tp.pr1.control.comando.Comando;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.mundo.Mundo;
+
 
 public class Controlador 
 {
@@ -112,7 +114,16 @@ public class Controlador
 	public String evoluciona() {
 		return this.mundo.evoluciona();
 	}
+	public void guardaControlador(String nombFich)
+	{
+		 this.mundo.guardarMundo(nombFich);
+	}
+	public void cargarControlador(String nombFich) 
+	//Practicamente todo lo que habia aquí esta ahora en mundo (las cosas de mundo las hace mundo)
+	{
+		this.mundo = this.mundo.cargarMundo(nombFich);		
 	
+	}
 	public void iniMundo(Mundo mundo)
 	{
 		this.mundo = mundo;
