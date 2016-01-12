@@ -1,15 +1,21 @@
 package tp.pr1.control;
 
-
+import java.io.IOException;
 import java.util.Scanner;
 
 import tp.pr1.control.comando.Comando;
+import tp.pr1.control.excepciones.CasillaLlena;
+import tp.pr1.control.excepciones.ComandoIncorrecto;
+import tp.pr1.control.excepciones.ErrorDeInicializacion;
+import tp.pr1.control.excepciones.FormatoNumericoIncorrecto;
+import tp.pr1.control.excepciones.IndicesFueraDeRango;
+import tp.pr1.control.excepciones.TipoCelulaDesconocido;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.mundo.Mundo;
+import tp.pr1.logic.mundo.MundoSimple;
 
 
-public class Controlador 
-{
+public class Controlador {
 	private Mundo mundo;
 	private ParserComando parser;
 	private boolean simulacionTerminada;
@@ -22,6 +28,7 @@ public class Controlador
 		this.entrada = new Scanner(System.in);
 		this.parser = new ParserComando();
 		this.simulacionTerminada = false;
+		this.mundo = new MundoSimple(0,0,0);
 	}
 	
 	/**
@@ -35,11 +42,14 @@ public class Controlador
 	/**
 	 * Una vez obtenida la cadena de datos a procesar este metodo busca el comando a procesar y lo ejecuta.	
 	 * @param cadena
+	 * @throws IOException 
+	 * @throws ComandoIncorrecto 
+	 * @throws FormatoNumericoIncorrecto 
 	 */
-	public void procesarComando(String cadena){
+	public void procesarComando(String cadena) throws ComandoIncorrecto, FormatoNumericoIncorrecto{
 		String[] array = cadena.split(" ");
 		Comando comando = this.parser.parseaComando(array);
-		if(comando != null)
+		//if(comando != null)
 			System.out.println(comando.ejecuta(this));
 		
 	}
@@ -66,20 +76,24 @@ public class Controlador
 	//CAMBIOS
 	/**
 	 * Ejecuta la aplicacion hasta su fin. 
+	 * @throws FormatoNumericoIncorrecto 
 	 */
-	public void lanzarAplicacion(){
+	public void lanzarAplicacion() {/////////////OJO////////////////////////////////////
 		
-		String comando = "JUGAR COMPLEJO 3 3 8 1"; 
-		/*Para inicializar en la primera vuelta
-		 * (si cambias ese comando por otro que no sea del tipo jugar dara fallo)
-		 * es una forma de inicializar el mundo por defecto
-		 */
-		
-		this.procesarComando(comando);
+		String comando = null; 
 		
 		while(!this.simulacionTerminada){
-			comando = this.leerComando();
-			this.procesarComando(comando);
+			try{
+				/*Arreglo para limpiar buffer*/
+					//this.entrada.skip("");
+				/*---------------------------*/
+				comando = this.leerComando();
+				this.procesarComando(comando);
+			}catch(ComandoIncorrecto e){
+				System.out.println(e.getMessage());
+			}catch(FormatoNumericoIncorrecto e){
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 	
@@ -95,39 +109,88 @@ public class Controlador
 	
 	
 	/*////////////////////////////// CODIGO NUEVO (FUNCIONES DE PASO ENTRE COMANDO Y MUNDO) //////////////////////////////////*/
-	public boolean crearCelulaCompleja(Casilla casilla)	{
-		return this.mundo.crearCelulaCompleja(casilla);
-	}
-
-	public boolean crearCelulaSimple(Casilla casilla) {
-		return this.mundo.crearCelulaSimple(casilla);
+	public boolean crearCelula(Casilla casilla){
+		int tipo = 0;
+		boolean  ok = false;
+		
+		System.out.println("De que tipo: Simple(1), Compleja(2):");
+		tipo = this.entrada.nextInt();
+		
+		try {
+			this.mundo.crearCelula(casilla, tipo);
+			ok = true;
+			
+		} catch (TipoCelulaDesconocido e) {// Mas 1 porque el usuario empieza en 1 y el enumerado en 0
+			System.out.println(e.getMessage() );
+		} catch (CasillaLlena e) {
+			System.out.println(e.getMessage() );
+		}catch ( IndicesFueraDeRango e) {
+			System.out.println(e.getMessage() );
+		}
+		return ok;
 	}
 
 	public boolean eliminarCelula(Casilla casilla) {
-		return this.mundo.eliminarCelula(casilla);
+		boolean ok = false;
+		try{
+			ok = this.mundo.eliminarCelula(casilla);
+		}catch(Exception e){
+			System.out.println("Error: Casilla fuera de rango." );
+		}
+		return ok;
 	}
 
 	public void vaciarMundo() {
 		this.mundo.vaciarMundo();
 	}
+	public void iniciarMundo()
+	{
+		this.mundo.iniciarMundo();
+	}
 
 	public String evoluciona() {
-		return this.mundo.evoluciona();
+		String aux = "";
+		try {
+			aux = this.mundo.evoluciona();
+		} catch (CasillaLlena e) {
+			System.out.println(e.getMessage() );
+		} catch (IndicesFueraDeRango e) {
+			System.out.println(e.getMessage() );
+		}
+		return aux;
 	}
-	public void guardaControlador(String nombFich)
-	{
-		 this.mundo.guardarMundo(nombFich);
+	public void guardaControlador(String nombFich){
+		try{
+			this.mundo.guardarMundo(nombFich);	 
+		}catch(IOException e){
+			System.out.println(e.getMessage() );
+		}
 	}
-	public void cargarControlador(String nombFich) 
+	public void cargarControlador(String nombFich) {
 	//Practicamente todo lo que habia aquí esta ahora en mundo (las cosas de mundo las hace mundo)
-	{
-		this.mundo = this.mundo.cargarMundo(nombFich);		
+		try{
+			this.mundo = this.mundo.cargarMundo(nombFich);		
+		}catch(IOException e){
+			System.out.println("Error: El fichero no existe" );
+		} catch (FormatoNumericoIncorrecto e) {
+			System.out.println(e.getMessage() );
+		}
 	
 	}
-	public void iniMundo(Mundo mundo)
-	{
+	public void iniMundo(Mundo mundo){
 		this.mundo = mundo;
-		this.mundo.inicializaMundo();
+		try {
+			this.mundo.inicializaMundo();
+		} catch (ErrorDeInicializacion e) {
+			System.out.println(e.getMessage() );
+		} catch (TipoCelulaDesconocido e) {
+			System.out.println(e.getMessage() );
+		} catch (CasillaLlena e){
+			System.out.println(e.getMessage() );
+		} catch (IndicesFueraDeRango e) {
+			System.out.println(e.getMessage() );
+		}
+		
 	}
 }
 

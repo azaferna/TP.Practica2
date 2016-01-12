@@ -4,6 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import tp.pr1.control.excepciones.CasillaLlena;
+import tp.pr1.control.excepciones.FormatoNumericoIncorrecto;
+import tp.pr1.control.excepciones.IndicesFueraDeRango;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
 
@@ -21,47 +24,22 @@ public class CelulaSimple implements Celula {
 	/**
 	 * Constructor de la clase celula.
 	 */
-	public CelulaSimple()
-	{
+	public CelulaSimple(){
 		this.pasosReproduccion = PASOS_REPRODUCCION;
 		this.pasosSinMover = MAX_PASOS_SIN_MOVER;
 	}
-	
-
-	
-
-	public void setPasosReproduccion(int pasosReproduccion) {
-		this.pasosReproduccion = pasosReproduccion;
-	}
-
-
-	public void setPasosSinMover(int pasosSinMover) {
-		this.pasosSinMover = pasosSinMover;
-	}
-
-
-	public static int getMaxPasosSinMover() {
-		return MAX_PASOS_SIN_MOVER;
-	}
-
-
-	public static int getPasosReproduccion() {
-		return PASOS_REPRODUCCION;
-	}
-
 
 	@Override
-	public String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN) {
+	public String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN) throws CasillaLlena, IndicesFueraDeRango {
 		
 		StringBuilder builder = new StringBuilder();
 
-		if(casN != null)
-		{
+		if(casN != null){
 			if(this.moverCelula(superficie, casV, casN)){
 			builder.append("Movimiento de" + casV.toString() + " a " + casN.toString() + '\n');
 			
 				if(!this.menosPasosRep()){
-					if(superficie.crearCelulaSimple(casV)){
+					if(superficie.crearCelula(casV, new CelulaSimple())){
 						this.iniReproduccion();
 						
 						builder.append("Nace una celula en " + casN.toString() );
@@ -98,8 +76,7 @@ public class CelulaSimple implements Celula {
 	}
 	
 	@Override
-	public Casilla generarCasillaVacia(Casilla casilla, Superficie superficie)
-	{
+	public Casilla generarCasillaVacia(Casilla casilla, Superficie superficie){
 		int indice, rand;
 		Casilla[] casVacias = new Casilla[MAXRODEO];
 		Casilla cas;
@@ -112,8 +89,7 @@ public class CelulaSimple implements Celula {
 			//Para pruebas
 			//System.out.println("La posicion nueva generada para la celula " + casilla.toString() + " es " + cas.toString());
 		}
-		else
-		{
+		else{
 			cas = null;
 			//Para pruebas
 			//System.out.println("La posicion nueva generada para la celula " + casilla.toString() + " es null");
@@ -122,7 +98,7 @@ public class CelulaSimple implements Celula {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString(){
 		StringBuilder builder = new StringBuilder();
 		//builder.append("  X ");
 		builder.append(" ");
@@ -136,8 +112,7 @@ public class CelulaSimple implements Celula {
 	/**
 	 * Reinicia los pasos de reproduccion de una celula.
 	 */
-	private void iniReproduccion()
-	{
+	private void iniReproduccion(){
 		this.pasosReproduccion = PASOS_REPRODUCCION;
 	}
 	
@@ -146,11 +121,9 @@ public class CelulaSimple implements Celula {
 	 * Resta pasos de reproduccion hasta llegar a cero
 	 * @return true si pasosReproduccion > 0;
 	 */
-	private boolean menosPasosRep()
-	{
+	private boolean menosPasosRep(){
 		boolean ok = false;
-		if(this.pasosReproduccion > 0)
-		{
+		if(this.pasosReproduccion > 0){
 			this.pasosReproduccion--;
 			ok = true;
 		}
@@ -163,11 +136,9 @@ public class CelulaSimple implements Celula {
 	 * Resta pasos sin mover hasta llegar a cero
 	 * @return menosSinMover > 0
 	 */
-	private boolean menosSinMover()
-	{
+	private boolean menosSinMover(){
 		boolean ok = false;
-		if(this.pasosSinMover > 0)
-		{
+		if(this.pasosSinMover > 0){
 			this.pasosSinMover--;
 			ok = true;
 		}
@@ -182,8 +153,7 @@ public class CelulaSimple implements Celula {
 	 * @param superficie -> suoerficie en la que nos manejamos
 	 * @return array de casillas vacias.
 	 */
-	private int arrayVaciasAlrededor(Casilla casilla, Casilla[] casVacias, Superficie superficie)
-	{	
+	private int arrayVaciasAlrededor(Casilla casilla, Casilla[] casVacias, Superficie superficie){	
 	int indice = 0;
 	int fil = casilla.getFila(), col = casilla.getColumna();
 		for(int f = fil - 1;  f <= (fil + 1) ; f++){
@@ -209,8 +179,7 @@ public class CelulaSimple implements Celula {
 	private boolean moverCelula(Superficie superficie, Casilla casV, Casilla casN){
 		boolean ok = false;
 		
-		if(!superficie.casillaLlena(casN) || superficie.casillaComestible(casN) )
-		{ 	
+		if(!superficie.casillaLlena(casN) || superficie.casillaComestible(casN) ){ 	
 			superficie.modificarCasilla(casV, casN);				
 			superficie.eliminarCelula(casV);	
 			
@@ -218,8 +187,7 @@ public class CelulaSimple implements Celula {
 		}	
 		return ok;
 	}
-	public  void guardaCelula( FileWriter fw)
-	{
+	public  void guardaCelula( FileWriter fw) throws IOException{
 		try{
 			fw.write("Simple ");
 			fw.write(Integer.toString(this.pasosReproduccion));
@@ -227,16 +195,18 @@ public class CelulaSimple implements Celula {
 			fw.write(Integer.toString(this.pasosSinMover));
 		}
 		catch (IOException e){
-            System.out.println("Error E/S: "+e);
+            throw new IOException("Error al guardar celula.");
 		}
 	}
 
 	@Override
-	public void cargaCelula(Scanner sc) {
-		
-		this.pasosReproduccion = sc.nextInt();
-		this.pasosSinMover = sc.nextInt();
-		
+	public void cargaCelula(Scanner sc) throws FormatoNumericoIncorrecto {
+		try{
+			this.pasosReproduccion = sc.nextInt();
+			this.pasosSinMover = sc.nextInt();
+		}catch(Exception e){
+			throw new FormatoNumericoIncorrecto("Error: Los parametros de la celula a cargar no estan bien definidos en el fichero");
+		}
 	}
 
 }

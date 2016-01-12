@@ -7,13 +7,13 @@ public class Iniciar implements Comando {
 	
 	public String ejecuta(Controlador control) {
 		
-		control.vaciarMundo();
+		control.iniciarMundo();
 		/*if ()//Cambiar por iniciar cuando este hecho
 			return "Error al inicializar" + '\n'+ control.stringMundo().toString();
 		else
 			return "Reiniciando mundo..."+ '\n' + control.stringMundo().toString();
 		*/
-		return "";
+		return control.stringMundo();
 		 
 	}
 
@@ -26,7 +26,6 @@ public class Iniciar implements Comando {
 	}
 
 	public String textoAyuda() {
-		
 		return "	INICIAR: inicia una nueva simulación." + '\n';
 	}
 

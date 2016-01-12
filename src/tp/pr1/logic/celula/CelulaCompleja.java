@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import tp.pr1.control.excepciones.FormatoNumericoIncorrecto;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
 
@@ -17,14 +18,10 @@ public class CelulaCompleja implements Celula{
 	/**
 	 * Constructor de la clase celula
 	 */
-	public CelulaCompleja()
-	{
+	public CelulaCompleja(){
 		this.explota = MAX_COMER;
 	}
 
-	public void setExplota(int explota) {
-		this.explota = explota;
-	}
 	@Override
 	public String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN ) {
 		
@@ -33,12 +30,10 @@ public class CelulaCompleja implements Celula{
 		if(superficie.casillaLlena(casN))
 			come = superficie.casillaComestible(casN);
 
-		if(come) 
-		{	 
+		if(come) {	 
 			if(this.menosComer() && this.moverCelula(superficie, casV, casN))
 					builder.append("Celula Compleja en" + casV.toString() + "se mueve a" + casN.toString() + "--COME--" + '\n');
-			else
-			{
+			else{
 				builder.append("Explota la celula " + casV.toString() + "despues de comer en " + casN.toString() + '\n');
 				superficie.eliminarCelula(casV);
 				superficie.eliminarCelula(casN);
@@ -63,8 +58,7 @@ public class CelulaCompleja implements Celula{
 	{
 		Casilla cas;
 		int f = -1, c = -1;
-		do
-		{
+		do{
 			f = (int) (Math.random()*superficie.getFil());
 			c = (int) (Math.random()*superficie.getCol());
 		}while(f == casilla.getFila() || c == casilla.getColumna());
@@ -80,7 +74,9 @@ public class CelulaCompleja implements Celula{
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
+		//Para entregar:
 		//builder.append("  * ");
+		//Para pruebas:
 		builder.append(" ");
 		builder.append(" *" + this.explota + " ");
 		 
@@ -91,11 +87,9 @@ public class CelulaCompleja implements Celula{
 	 * Resta pasos para explotar
 	 * @return explota > 0
 	 */
-	private boolean menosComer()
-	{
+	private boolean menosComer(){
 		boolean ok = false;
-		if (this.explota > 0)
-		{
+		if (this.explota > 0){
 			this.explota --;
 			ok = true;
 		}
@@ -112,8 +106,7 @@ public class CelulaCompleja implements Celula{
 	private boolean moverCelula(Superficie superficie, Casilla casV, Casilla casN){
 		boolean ok = false;
 		
-		if(!superficie.casillaLlena(casN) || superficie.casillaComestible(casN) )
-		{ 	
+		if(!superficie.casillaLlena(casN) || superficie.casillaComestible(casN) ){ 	
 			superficie.modificarCasilla(casV, casN);				
 			superficie.eliminarCelula(casV);	
 			
@@ -123,22 +116,25 @@ public class CelulaCompleja implements Celula{
 	}
 
 	
-	public  void guardaCelula( FileWriter fw)
-	{
+	public  void guardaCelula( FileWriter fw)throws IOException{
 		try{
 	 		 fw.write("Compleja ");
 			 fw.write(Integer.toString(this.explota));
 			
-			}
-			catch (IOException e){
-	            System.out.println("Error E/S: "+e);
+		}catch (IOException e){
+				throw new IOException("Error al guardar los parametros de la celula");
 			}
 	
 		
 	}
 
 	@Override
-	public void cargaCelula(Scanner sc) {
-		this.explota = sc.nextInt();
+	public void cargaCelula(Scanner sc) throws FormatoNumericoIncorrecto{
+		
+		try{
+			this.explota = sc.nextInt();
+		}catch(Exception e){//Capturará cualquier cosa rara del fichero		
+			throw new FormatoNumericoIncorrecto("Error: Los parametros de la celula a cargar no estan bien definidos en el fichero");
+		}
 	}
 }

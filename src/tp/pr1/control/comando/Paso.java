@@ -4,7 +4,7 @@ import tp.pr1.control.Controlador;
 public class Paso implements Comando {
 
 	
-	public String ejecuta(Controlador control) {
+	public String ejecuta(Controlador control){
 		return control.evoluciona() + control.stringMundo();
 	}
 

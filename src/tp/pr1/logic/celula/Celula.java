@@ -1,8 +1,12 @@
 package tp.pr1.logic.celula;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
+import tp.pr1.control.excepciones.CasillaLlena;
+import tp.pr1.control.excepciones.FormatoNumericoIncorrecto;
+import tp.pr1.control.excepciones.IndicesFueraDeRango;
 import tp.pr1.logic.Casilla;
 import tp.pr1.logic.Superficie;
 
@@ -16,8 +20,11 @@ public interface Celula {
 	 * @param casN -> Posicion donde se tiene que mover la casilla
 	 * @param superficie -> superficie donde trabajamos
 	 * @return Devuelve una cadena de texto con todo lo que ha sucedido durante el movimiento
+	 * @throws IndicesFueraDeRango 
+	 * @throws CasillaLlena 
+	 * @throws FormatoNumericoIncorrecto 
 	 */
-	public abstract String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN);
+	public abstract String ejecutaMovimiento(Casilla casV, Superficie superficie, Casilla casN) throws CasillaLlena, IndicesFueraDeRango;
 	
 	/** 
 	 * @return Devuelve true si la casilla es comestible.
@@ -36,13 +43,14 @@ public interface Celula {
 	 */
 	public abstract Casilla generarCasillaVacia(Casilla casilla, Superficie superficie);
 	
-	public abstract void guardaCelula( FileWriter fw);
+	public abstract void guardaCelula( FileWriter fw) throws IOException;
 	
 	/**
 	 * Carga los parametros correspondientes a cada tipo de celula
 	 * @param sc flujo de e/s
+	 * @throws FormatoNumericoIncorrecto 
 	 */
-	public abstract void cargaCelula(Scanner sc);
+	public abstract void cargaCelula(Scanner sc) throws FormatoNumericoIncorrecto;
 	
 	
 	
